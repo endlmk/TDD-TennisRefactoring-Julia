@@ -15,47 +15,32 @@ function Tenniskata.won_point(game::TennisGame1, playerName::String)
     end
 end
 
-function Tenniskata.get_score(game::TennisGame1)
-    score = ""
-    tempScore = 0
-    function ordinalScore(s::Int)::String
-        if s == 0
-            return "Love"
-        elseif s == 1
-            return "Fifteen"
-        elseif s == 2
-            return "Thirty"
-        elseif s == 3
-            return "Forty"
-        end
+function ordinalScore(s::Int)::String
+    if s == 0
+        return "Love"
+    elseif s == 1
+        return "Fifteen"
+    elseif s == 2
+        return "Thirty"
+    elseif s == 3
+        return "Forty"
     end
-    if game.m_score1 == game.m_score2
-        if game.m_score1 <= 2
-			score = "$(ordinalScore(game.m_score1))-All"
-        else
-            score = "Deuce"
-        end
+end
+
+function Tenniskata.get_score(game::TennisGame1)
+    if game.m_score1 == game.m_score2 && game.m_score1 >= 3
+        return "Deuce"
+    elseif game.m_score1 == game.m_score2 && game.m_score1 <= 2
+		return "$(ordinalScore(game.m_score1))-All"
     elseif game.m_score1 >= 4 || game.m_score2 >= 4
-        minusResult = game.m_score1 - game.m_score2
-        if minusResult == 1
-			score = "Advantage player1"
-		elseif minusResult == -1
-			score = "Advantage player2"
-		elseif minusResult >= 2
-			score = "Win for player1"
+        advPlayer = game.m_score1 > game.m_score2 ? "player1" : "player2"
+        diff = abs(game.m_score1 - game.m_score2)
+        if diff == 1
+			return "Advantage " * advPlayer
 		else
-			score = "Win for player2"
+			return "Win for " * advPlayer
         end
     else
-        for i = 1:2
-            if i == 1 
-				tempScore = game.m_score1
-			else
-				score *= "-"
-				tempScore = game.m_score2
-            end			
-            score *= ordinalScore(tempScore)
-        end
+        return "$(ordinalScore(game.m_score1))-$(ordinalScore(game.m_score2))"
     end
-    return score
 end
