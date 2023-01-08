@@ -30,8 +30,6 @@ end
 function Tenniskata.get_score(game::TennisGame1)
     if game.m_score1 == game.m_score2 && game.m_score1 >= 3
         return "Deuce"
-    elseif game.m_score1 == game.m_score2 && game.m_score1 <= 2
-		return "$(ordinalScore(game.m_score1))-All"
     elseif game.m_score1 >= 4 || game.m_score2 >= 4
         advPlayer = game.m_score1 > game.m_score2 ? "player1" : "player2"
         diff = abs(game.m_score1 - game.m_score2)
@@ -41,6 +39,8 @@ function Tenniskata.get_score(game::TennisGame1)
 			return "Win for " * advPlayer
         end
     else
-        return "$(ordinalScore(game.m_score1))-$(ordinalScore(game.m_score2))"
+        firstPart = ordinalScore(game.m_score1)
+        secondPart = game.m_score1 == game.m_score2 ? "All" : ordinalScore(game.m_score2)
+        return firstPart * "-" * secondPart
     end
 end
