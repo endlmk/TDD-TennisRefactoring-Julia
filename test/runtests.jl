@@ -17,6 +17,24 @@ AllTestCase = [
 	TestData(2, 0, "Thirty-Love");
 	TestData(3, 0, "Forty-Love");
 	TestData(4, 0, "Win for player1");
+	TestData(0, 1, "Love-Fifteen");
+	TestData(0, 2, "Love-Thirty");
+	TestData(0, 3, "Love-Forty");
+	TestData(0, 4, "Win for player2");
+	TestData(1, 1, "Fifteen-All");
+	TestData(2, 2, "Thirty-All");
+	TestData(3, 3, "Deuce");
+	TestData(2, 1, "Thirty-Fifteen");
+	TestData(3, 2, "Forty-Thirty");	
+	TestData(4, 2, "Win for player1");	
+	TestData(4, 3, "Advantage player1");
+	TestData(1, 2, "Fifteen-Thirty");
+	TestData(2, 3, "Thirty-Forty");
+	TestData(2, 4, "Win for player2");	
+	TestData(3, 4, "Advantage player2");
+	TestData(4, 4, "Deuce");
+	TestData(5, 3, "Win for player1");
+	TestData(3, 5, "Win for player2");
 ]
 
 function create_playing_game_for_Tenniskata1(player1_won_count::Int, player2_won_count::Int)::TennisGame1
