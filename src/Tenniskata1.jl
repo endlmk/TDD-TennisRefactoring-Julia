@@ -18,13 +18,20 @@ end
 function Tenniskata.get_score(game::TennisGame1)
     score = ""
     tempScore = 0
+    function ordinalScore(s::Int)::String
+        if s == 0
+            return "Love"
+        elseif s == 1
+            return "Fifteen"
+        elseif s == 2
+            return "Thirty"
+        elseif s == 3
+            return "Forty"
+        end
+    end
     if game.m_score1 == game.m_score2
-        if game.m_score1 == 0
-			score = "Love-All"
-        elseif game.m_score1 == 1
-            score = "Fifteen-All"
-        elseif game.m_score1 == 2
-            score = "Thirty-All"
+        if game.m_score1 <= 2
+			score = "$(ordinalScore(game.m_score1))-All"
         else
             score = "Deuce"
         end
@@ -47,15 +54,7 @@ function Tenniskata.get_score(game::TennisGame1)
 				score *= "-"
 				tempScore = game.m_score2
             end			
-            if tempScore == 0
-                score *= "Love"
-            elseif tempScore == 1
-                score *= "Fifteen"
-            elseif tempScore == 2
-                score *= "Thirty"
-            elseif tempScore == 3
-                score *= "Forty"
-            end
+            score *= ordinalScore(tempScore)
         end
     end
     return score
