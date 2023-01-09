@@ -21,51 +21,24 @@ function ordinalScore(s::Int)::String
 end
 
 function Tenniskata.get_score(game::TennisGame2)
-    score = ""
-	if game.P1point == game.P2point && game.P1point < 3
-		score = ordinalScore(game.P1point) * "-All"
-    end
-	if game.P1point == game.P2point && game.P1point >= 3
-		score = "Deuce"
+	if game.P1point == game.P2point 
+		return game.P1point < 3 ? ordinalScore(game.P1point) * "-All" : "Deuce"
     end
 
-	if game.P1point > 0 && game.P1point <= 3 && game.P2point == 0
-		game.P1res = ordinalScore(game.P1point)
-		game.P2res = "Love"
-		score = game.P1res * "-" * game.P2res
-    end
-	if game.P2point > 0 && game.P2point <= 3 && game.P1point == 0
-		game.P1res = "Love"
-		game.P2res = ordinalScore(game.P2point)
-		score = game.P1res * "-" * game.P2res
+	if game.P1point < 4 && game.P2point < 4
+		return ordinalScore(game.P1point) * "-" * ordinalScore(game.P2point)
     end
 
-	if game.P1point > game.P2point && game.P1point < 4
-		game.P1res = ordinalScore(game.P1point)
-		game.P2res = ordinalScore(game.P2point)
-		score = game.P1res * "-" * game.P2res
-    end
-	if game.P2point > game.P1point && game.P2point < 4
-		game.P1res = ordinalScore(game.P1point)
-		game.P2res = ordinalScore(game.P2point)
-		score = game.P1res * "-" * game.P2res
+	advPlayer = game.P1point > game.P2point ? "player1" : "player2"
+	diff = abs(game.P1point - game.P2point)
+
+	if diff >= 2
+		return "Win for " * advPlayer
     end
 
-	if game.P1point > game.P2point && game.P2point >= 3
-		score = "Advantage player1"
-    end
-
-	if game.P2point > game.P1point && game.P1point >= 3
-		score = "Advantage player2"
-    end
-
-	if game.P1point >= 4 && game.P2point >= 0 && (game.P1point-game.P2point) >= 2
-		score = "Win for player1"
-    end
-	if game.P2point >= 4 && game.P1point >= 0 && (game.P2point-game.P1point) >= 2
-		score = "Win for player2"
-    end
-	return score
+	if diff == 1
+		return "Advantage " * advPlayer
+	end
 end
 
 set_p1_score(game::TennisGame2, number::Int) = for _ = 1:number p1_score(game) end
