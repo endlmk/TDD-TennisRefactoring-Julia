@@ -54,3 +54,21 @@ end
 		@test Tenniskata.get_score(g) == c.Score
 	end
 end
+
+function create_playing_game_for_Tenniskata2(player1_won_count::Int, player2_won_count::Int)::TennisGame2
+	game = TennisGame2("", "") # names are not used
+	for _ in range(; length = player1_won_count) 
+		Tenniskata.won_point(game, "player1")
+	end
+	for _ in range(; length = player2_won_count) 
+		Tenniskata.won_point(game, "player2")
+	end
+	return game
+end
+
+@testset "Tenniskata2_Test" begin
+	for c in AllTestCase
+		g = create_playing_game_for_Tenniskata2(c.Player1Point, c.Player2Point)
+		@test Tenniskata.get_score(g) == c.Score
+	end
+end
