@@ -8,26 +8,15 @@ mutable struct TennisGame3
 end
 
 function Tenniskata.get_score(game::TennisGame3)
-	if game.p1 < 4 && game.p2 < 4 && !(game.p1+game.p2 == 6)
+	if game.p1 < 4 && game.p2 < 4 && !(game.p1 == 3 && game.p2 == 3)
 		p = Dict(0 => "Love", 1 => "Fifteen", 2 => "Thirty", 3 => "Forty")
-		s = p[game.p1]
-		if game.p1 == game.p2
-			return s * "-All"
-        end
-		return s * "-" * p[game.p2]
+		return game.p1 == game.p2 ? p[game.p1] * "-All" : p[game.p1] * "-" * p[game.p2]
 	else
 		if game.p1 == game.p2
 			return "Deuce"
         end
-		if game.p1 > game.p2
-			s = game.p1N
-        else
-			s = game.p2N
-        end
-		if (game.p1-game.p2)*(game.p1-game.p2) == 1
-			return "Advantage " * s
-        end
-		return "Win for " * s
+		s = game.p1 > game.p2 ? game.p1N : game.p2N
+		return (abs(game.p1-game.p2) == 1 ? "Advantage " : "Win for ") * s
     end
 end
 
