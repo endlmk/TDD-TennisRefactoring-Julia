@@ -10,81 +10,44 @@ mutable struct TennisGame2
     TennisGame2(player1Name, player2Name) = new(0, 0, "", "", player1Name, player2Name)
 end
 
+ordinalScoreArray = [
+	"Love";
+	"Fifteen";
+	"Thirty";
+	"Forty";
+]
+function ordinalScore(s::Int)::String
+	return ordinalScoreArray[s + 1]
+end
+
 function Tenniskata.get_score(game::TennisGame2)
     score = ""
-	if game.P1point == game.P2point && game.P1point < 4
-		if game.P1point == 0
-			score = "Love"
-        end
-		if game.P1point == 1
-			score = "Fifteen"
-        end
-		if game.P1point == 2
-			score = "Thirty"
-        end
-		score *= "-All"
+	if game.P1point == game.P2point && game.P1point < 3
+		score = ordinalScore(game.P1point) * "-All"
     end
 	if game.P1point == game.P2point && game.P1point >= 3
 		score = "Deuce"
     end
 
-	if game.P1point > 0 && game.P2point == 0
-		if game.P1point == 1 
-			game.P1res = "Fifteen"
-        end
-		if game.P1point == 2 
-			game.P1res = "Thirty"
-        end
-		if game.P1point == 3 
-			game.P1res = "Forty"
-        end
-
+	if game.P1point > 0 && game.P1point <= 3 && game.P2point == 0
+		game.P1res = ordinalScore(game.P1point)
 		game.P2res = "Love"
 		score = game.P1res * "-" * game.P2res
     end
-	if game.P2point > 0 && game.P1point == 0
-		if game.P2point == 1
-			game.P2res = "Fifteen"
-        end
-		if game.P2point == 2
-			game.P2res = "Thirty"
-        end
-		if game.P2point == 3
-			game.P2res = "Forty"
-        end
-
+	if game.P2point > 0 && game.P2point <= 3 && game.P1point == 0
 		game.P1res = "Love"
+		game.P2res = ordinalScore(game.P2point)
 		score = game.P1res * "-" * game.P2res
     end
 
 	if game.P1point > game.P2point && game.P1point < 4
-		if game.P1point == 2
-			game.P1res = "Thirty"
-        end
-		if game.P1point == 3
-			game.P1res = "Forty"
-        end
-		if game.P2point == 1
-			game.P2res = "Fifteen"
-        end
-		if game.P2point == 2
-			game.P2res = "Thirty"
-        end
+		game.P1res = ordinalScore(game.P1point)
+		game.P2res = ordinalScore(game.P2point)
 		score = game.P1res * "-" * game.P2res
     end
 	if game.P2point > game.P1point && game.P2point < 4
-		if game.P2point == 2
-			game.P2res = "Thirty"
-        end
-		if game.P2point == 3
-			game.P2res = "Forty"
-        end
-		if game.P1point == 1
-			game.P1res = "Fifteen"
-        end
-		if game.P1point == 2
-			game.P1res = "Thirty"
-        end
+		game.P1res = ordinalScore(game.P1point)
+		game.P2res = ordinalScore(game.P2point)
 		score = game.P1res * "-" * game.P2res
     end
 
